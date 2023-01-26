@@ -1,0 +1,27 @@
+Package: ungage
+Type: Package
+Title: Extract ENGAGE .myrec Data
+Version: 0.1.0
+Author: Mark Roman Miller
+Maintainer: Mark Roman Miller <mark.roman.miller@gmail.com>
+Description: Convert myrec (my recording) files from the ENGAGE social VR 
+    platform into the BIDS experiment data filesystem format.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports:
+    brio,
+    dddr,
+    dplyr,
+    jsonlite,
+    logger,
+    purrr,
+    rbids,
+    stringr,
+    tibble,
+    tidyr,
+    withr
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+RoxygenNote: 7.1.2
