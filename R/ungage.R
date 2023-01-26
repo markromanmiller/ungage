@@ -61,6 +61,10 @@ get_player_names <- function(master_json) {
   return (player_names)
 }
 
+#' Pull Player Names present within a recording
+#'
+#' @param myrec_path Path to the myrec file
+#'
 #' @export
 myrec_player_names <- function(myrec_path) {
   absolute_path_to_myrec <- check_file(myrec_path)
@@ -81,6 +85,10 @@ myrec_player_names <- function(myrec_path) {
 
 #' Convert myrec file into BIDS format
 #'
+#' @param myrec_path Path to the .myrec file
+#' @param bids_dataset_object BIDS object created by `rbids::bids()` to which this data will be written
+#' @param session_id BIDS session id for this recording, one alphanumeric string
+#' @param task_id BIDS task id for this recording, also an alphanumeric string
 #' @param participant_id_map Named vector with names as player names and values as participant IDs
 #'
 #' @importFrom dddr semantics_angles_unity semantics_axes_unity set_dddr_semantics get_dddr_semantics
@@ -98,11 +106,6 @@ myrec_to_bids <- function (myrec_path, bids_dataset_object, session_id, task_id,
   absolute_path_to_myrec <- check_file(myrec_path)
   check_single_character(session_id)
   check_single_character(task_id)
-
-  print(bids_dataset_object)
-
-  # check whether sessio_id is a one-element string
-
 
   unzip_dest <- "unzip_dest"
 
@@ -244,12 +247,6 @@ myrec_to_bids <- function (myrec_path, bids_dataset_object, session_id, task_id,
 
       bids_write_motion_files(data_files, bids_dataset_object, append = T)
 
-      # what functions for writing currently exist?
-
     }
-
   })
-
-  #
-  # set up file system.
 }
