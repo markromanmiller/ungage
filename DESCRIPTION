@@ -15,6 +15,7 @@ Imports:
     dplyr,
     jsonlite,
     logger,
+    magrittr,
     purrr,
     rbids,
     stringr,

@@ -9,6 +9,7 @@
 #' @importFrom withr with_tempdir
 #' @importFrom jsonlite read_json
 #' @importFrom logger log_info log_debug
+#' @importFrom magrittr %>%
 NULL
 
 check_file <- function(myrec_path) {
