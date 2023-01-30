@@ -9,7 +9,8 @@ myrec_to_bids(
   bids_dataset_object,
   session_id,
   task_id,
-  participant_id_map
+  participant_id_map,
+  person_sessions = 1000
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ myrec_to_bids(
 \item{task_id}{BIDS task id for this recording, also an alphanumeric string}
 
 \item{participant_id_map}{Named vector with names as player names and values as participant IDs}
+
+\item{person_sessions}{Size of streams to read before writing data. Larger numbers run a little faster but use more memory. Default is 1000.}
 }
 \description{
 Convert myrec file into BIDS format

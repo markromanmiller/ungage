@@ -91,6 +91,7 @@ myrec_player_names <- function(myrec_path) {
 #' @param session_id BIDS session id for this recording, one alphanumeric string
 #' @param task_id BIDS task id for this recording, also an alphanumeric string
 #' @param participant_id_map Named vector with names as player names and values as participant IDs
+#' @param person_sessions Size of streams to read before writing data. Larger numbers run a little faster but use more memory. Default is 1000.
 #'
 #' @importFrom dddr semantics_angles_unity semantics_axes_unity set_dddr_semantics get_dddr_semantics
 #' @importFrom stringr str_match str_split str_sub str_subset
@@ -101,7 +102,7 @@ myrec_player_names <- function(myrec_path) {
 #' @importFrom rbids bids_write_motion_files
 #' @importFrom brio read_file
 #' @export
-myrec_to_bids <- function (myrec_path, bids_dataset_object, session_id, task_id, participant_id_map) {
+myrec_to_bids <- function (myrec_path, bids_dataset_object, session_id, task_id, participant_id_map, person_sessions = 1000) {
 
   # Check whether the relevant files exists and are in a reasonable state.
   absolute_path_to_myrec <- check_file(myrec_path)
@@ -124,7 +125,7 @@ myrec_to_bids <- function (myrec_path, bids_dataset_object, session_id, task_id,
 
     # I can't parse all of them! Write after a certain number of blocks... about 1000 if we include people.
 
-    batches <- split(seq_len(stream_count)-1, ceiling(seq_len(stream_count) * length(player_names) / 1000))
+    batches <- split(seq_len(stream_count)-1, ceiling(seq_len(stream_count) * length(player_names) / person_sessions))
 
     # TODO: setup progress bar here.
     #pb <- progress::progress_bar$new(total = 446)
@@ -138,7 +139,7 @@ myrec_to_bids <- function (myrec_path, bids_dataset_object, session_id, task_id,
 
     for (batch_index in seq_along(batches)) {
       batch <- batches[[batch_index]]
-      log_debug("Making batch...")
+      log_debug(paste0("Making batch ", batch_index , "/", length(batches)))
 
       # First, expand out the file into a table where each row represents
       # a single piece of written information from the stream
@@ -190,7 +191,7 @@ myrec_to_bids <- function (myrec_path, bids_dataset_object, session_id, task_id,
         ) %>%
         unnest(data)
 
-      log_debug("making sep and fill data")
+      log_debug("making sep and fill data, ", batch_index , "/", length(batches))
 
       selected_tracked_data_types <- c(
         # Positions and orientations
